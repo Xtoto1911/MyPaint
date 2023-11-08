@@ -9,7 +9,7 @@ namespace MyPaint.FiguresClasses
     [Serializable]
     public class Figure
     {
-        protected double with;
+        protected float with;
         protected Color color;
 
         public List<Figure> figures  = new();
@@ -22,12 +22,13 @@ namespace MyPaint.FiguresClasses
             color = pen.Color;
             with = pen.Width;
         }
+
         /// <summary>
         /// возвращает массив характеристик фигуры
-        /// 0 - позиция по x
-        /// 1 - позиция по y
-        /// 2 - ширина
-        /// 3 - высота
+        /// 0 индекс - позиция по x
+        /// 1 индекс - позиция по y
+        /// 2 индекс - ширина
+        /// 3 индекс - высота
         /// </summary>
         /// <returns></returns>
         protected int[] GetSettings()
