@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace MyPaint.FiguresClasses
 {
     [Serializable]
-    public class Rectangle:Figure
+    public class MyRectangle:Figure
     {
-        public Rectangle(Pen pen):base(pen) { }
+        public MyRectangle(Pen pen):base(pen) { }
 
         public override void Drow(Graphics gr)
         {
