@@ -11,7 +11,7 @@ namespace MyPaint.FiguresClasses
     {
         public Line(Pen pen): base(pen) { }
 
-        public override void Drow(Graphics gr)
+        public override void Draw(Graphics gr)
         {
             gr.DrawLines(new Pen(color, with), points.ToArray());
         }

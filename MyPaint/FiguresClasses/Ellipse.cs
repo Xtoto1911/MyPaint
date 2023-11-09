@@ -11,7 +11,7 @@ namespace MyPaint.FiguresClasses
     {
         public Ellipse(Pen pen):base(pen) { }
 
-        public override void Drow(Graphics gr)
+        public override void Draw(Graphics gr)
         {
             int[] setting = GetSettings();
             System.Drawing.Rectangle r = new(setting[0], setting[1], setting[2], setting[3]);

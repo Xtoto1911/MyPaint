@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             menuStrip1 = new MenuStrip();
             File = new ToolStripMenuItem();
+            OpenFile = new ToolStripMenuItem();
+            Exit = new ToolStripMenuItem();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
             StraightLineBtn = new Button();
@@ -43,8 +45,6 @@
             trackBar1 = new TrackBar();
             LabelPx = new Label();
             DrowPanel = new Panel();
-            OpenFile = new ToolStripMenuItem();
-            Exit = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -67,6 +67,18 @@
             File.Size = new Size(48, 20);
             File.Text = "Файл";
             File.Click += OpenFile_Click;
+            // 
+            // OpenFile
+            // 
+            OpenFile.Name = "OpenFile";
+            OpenFile.Size = new Size(121, 22);
+            OpenFile.Text = "Открыть";
+            // 
+            // Exit
+            // 
+            Exit.Name = "Exit";
+            Exit.Size = new Size(121, 22);
+            Exit.Text = "Выход";
             // 
             // tableLayoutPanel1
             // 
@@ -125,6 +137,7 @@
             StraightLineBtn.Size = new Size(42, 38);
             StraightLineBtn.TabIndex = 6;
             StraightLineBtn.UseVisualStyleBackColor = false;
+            StraightLineBtn.Click += StraightLineBtn_Click;
             // 
             // Line
             // 
@@ -137,6 +150,7 @@
             Line.Size = new Size(42, 38);
             Line.TabIndex = 5;
             Line.UseVisualStyleBackColor = false;
+            Line.Click += Line_Click;
             // 
             // EllipseBtn
             // 
@@ -149,6 +163,7 @@
             EllipseBtn.Size = new Size(42, 38);
             EllipseBtn.TabIndex = 4;
             EllipseBtn.UseVisualStyleBackColor = false;
+            EllipseBtn.Click += EllipseBtn_Click;
             // 
             // RecBtn
             // 
@@ -161,6 +176,7 @@
             RecBtn.Size = new Size(42, 38);
             RecBtn.TabIndex = 2;
             RecBtn.UseVisualStyleBackColor = false;
+            RecBtn.Click += RecBtn_Click;
             // 
             // button1
             // 
@@ -184,6 +200,7 @@
             BackBtn.Size = new Size(42, 38);
             BackBtn.TabIndex = 0;
             BackBtn.UseVisualStyleBackColor = true;
+            BackBtn.Click += BackBtn_Click;
             // 
             // ColorBtn
             // 
@@ -200,10 +217,12 @@
             // 
             trackBar1.Dock = DockStyle.Fill;
             trackBar1.Location = new Point(373, 3);
-            trackBar1.Maximum = 15;
+            trackBar1.Maximum = 25;
+            trackBar1.Minimum = 1;
             trackBar1.Name = "trackBar1";
             trackBar1.Size = new Size(144, 38);
             trackBar1.TabIndex = 8;
+            trackBar1.Value = 1;
             trackBar1.Scroll += trackBar1_Scroll;
             // 
             // LabelPx
@@ -225,18 +244,10 @@
             DrowPanel.Name = "DrowPanel";
             DrowPanel.Size = new Size(842, 442);
             DrowPanel.TabIndex = 1;
-            // 
-            // OpenFile
-            // 
-            OpenFile.Name = "OpenFile";
-            OpenFile.Size = new Size(121, 22);
-            OpenFile.Text = "Открыть";
-            // 
-            // Exit
-            // 
-            Exit.Name = "Exit";
-            Exit.Size = new Size(121, 22);
-            Exit.Text = "Выход";
+            DrowPanel.Paint += DrowPanel_Paint;
+            DrowPanel.MouseDown += DrowPanel_MouseDown;
+            DrowPanel.MouseMove += DrowPanel_MouseMove;
+            DrowPanel.MouseUp += DrowPanel_MouseUp;
             // 
             // Form1
             // 

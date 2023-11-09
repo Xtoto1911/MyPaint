@@ -41,11 +41,11 @@ namespace MyPaint.FiguresClasses
             return settings;
 
         }
-        public virtual void Drow(Graphics gr)
+        public virtual void Draw(Graphics gr)
         {
             foreach(var figure in figures)
                 if(figure != null)
-                    figure.Drow(gr);
+                    figure.Draw(gr);
         }
     }
 }
