@@ -1,5 +1,7 @@
 using MyPaint.FiguresClasses;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MyPaint
 {
@@ -58,15 +60,15 @@ namespace MyPaint
         }
 
         private void DrawRectangle(Point old, Point current) =>
-            DrowShape(rectangle, old, current);
+            DrowFigure(rectangle, old, current);
 
         private void DrawEllipse(Point old, Point current) =>
-            DrowShape(ellipse, old, current);
+            DrowFigure(ellipse, old, current);
 
         private void DrawStraighLine(Point old, Point current) =>
-            DrowShape(straightLine, old, current);
+            DrowFigure(straightLine, old, current);
 
-        void DrowShape(Figure f, Point old, Point current, bool isMousDrow = false)
+        void DrowFigure(Figure f, Point old, Point current, bool isMousDrow = false)
         {
             f.points.Add(old);
             if (!isDraw || isMousDrow)
@@ -78,7 +80,7 @@ namespace MyPaint
         }
 
         private void CreateLine()
-        { 
+        {
             line = new(pen);
             isLine = true;
         }
@@ -89,26 +91,76 @@ namespace MyPaint
             isLine = false;
         }
 
-        public void CreateEllipse() 
-        { 
+        public void CreateEllipse()
+        {
             ellipse = new(pen);
             isLine = false;
         }
 
-        public void CreateStraighLine() 
-        { 
+        public void CreateStraighLine()
+        {
             straightLine = new(pen);
             isLine = false;
         }
 
         private void SaveBtn_Click(object sender, EventArgs e)
         {
-
+            using (SaveFileDialog dialog = new SaveFileDialog())
+            {
+                dialog.Filter = "MyPaint  (*png) | *.png";
+                dialog.RestoreDirectory = true;
+                dialog.DefaultExt = "png";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    Stream stream = dialog.OpenFile();
+                    if (stream != null)
+                    {
+                        BinaryFormatter myBin = new BinaryFormatter();
+                        myBin.Serialize(stream, figure.figures);
+                        stream.Close();
+                    }
+                }
+            }
+            isSave = true;
         }
 
         private void OpenFile_Click(object sender, EventArgs e)
         {
+            using (OpenFileDialog openFile = new OpenFileDialog())
+            {
+                openFile.Filter = "Файлы MyPaint  (*png) | *.png";
+                openFile.RestoreDirectory = true;
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    if (figure.figures.Count != 0)
+                        figure.figures.Clear();
+                    Refresh();
+                    Stream mystr = openFile.OpenFile();
+                    if (mystr != null)
+                    {
+                        try
+                        {
+                            BinaryFormatter myBin = new BinaryFormatter();
+                            figure.figures = (List<Figure>)myBin.Deserialize(mystr);
+                            mystr.Close();
+                            figure.Draw(graphics);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Ошибка при открытии файла");
+                        }
+                    }
+                }
+            }
+            drawDelig = null;
+            isSave = true;
+        }
 
+        private void CleanBnt_Click(object sender, EventArgs e)
+        {
+            figure.figures.Clear();
+            Refresh();
+            isSave = false;
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -124,10 +176,10 @@ namespace MyPaint
                 isDraw = true;
                 createDelig?.Invoke();
                 firstPoint = e.Location;
-                if (isLine) 
+                if (isLine)
                 {
                     var local = new Point(firstPoint.X + (int)pen.Width / 2, firstPoint.Y + (int)pen.Width);
-                    DrowShape(new Ellipse(pen), e.Location, local, true);
+                    DrowFigure(new Ellipse(pen), e.Location, local, true);
                 }
                 isSave = drawDelig == null;
             }
@@ -197,5 +249,6 @@ namespace MyPaint
             createDelig = CreateStraighLine;
             drawDelig = DrawStraighLine;
         }
+
     }
 }

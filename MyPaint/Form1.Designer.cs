@@ -32,6 +32,7 @@
             menuStrip1 = new MenuStrip();
             File = new ToolStripMenuItem();
             OpenFile = new ToolStripMenuItem();
+            CleanBnt = new ToolStripMenuItem();
             Exit = new ToolStripMenuItem();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
@@ -62,22 +63,29 @@
             // 
             // File
             // 
-            File.DropDownItems.AddRange(new ToolStripItem[] { OpenFile, Exit });
+            File.DropDownItems.AddRange(new ToolStripItem[] { OpenFile, CleanBnt, Exit });
             File.Name = "File";
             File.Size = new Size(48, 20);
             File.Text = "Файл";
-            File.Click += OpenFile_Click;
             // 
             // OpenFile
             // 
             OpenFile.Name = "OpenFile";
-            OpenFile.Size = new Size(121, 22);
+            OpenFile.Size = new Size(180, 22);
             OpenFile.Text = "Открыть";
+            OpenFile.Click += OpenFile_Click;
+            // 
+            // CleanBnt
+            // 
+            CleanBnt.Name = "CleanBnt";
+            CleanBnt.Size = new Size(180, 22);
+            CleanBnt.Text = "Очистить";
+            CleanBnt.Click += CleanBnt_Click;
             // 
             // Exit
             // 
             Exit.Name = "Exit";
-            Exit.Size = new Size(121, 22);
+            Exit.Size = new Size(180, 22);
             Exit.Text = "Выход";
             // 
             // tableLayoutPanel1
@@ -189,6 +197,7 @@
             button1.Size = new Size(42, 38);
             button1.TabIndex = 3;
             button1.UseVisualStyleBackColor = false;
+            button1.Click += SaveBtn_Click;
             // 
             // BackBtn
             // 
@@ -287,5 +296,6 @@
         private Label LabelPx;
         private ToolStripMenuItem OpenFile;
         private ToolStripMenuItem Exit;
+        private ToolStripMenuItem CleanBnt;
     }
 }
