@@ -59,14 +59,11 @@ namespace MyPaint
                 figure.figures.Add(line);
         }
 
-        private void DrawRectangle(Point old, Point current) =>
-            DrowFigure(rectangle, old, current);
+        private void DrawRectangle(Point old, Point current) => DrowFigure(rectangle, old, current);
 
-        private void DrawEllipse(Point old, Point current) =>
-            DrowFigure(ellipse, old, current);
+        private void DrawEllipse(Point old, Point current) => DrowFigure(ellipse, old, current);
 
-        private void DrawStraighLine(Point old, Point current) =>
-            DrowFigure(straightLine, old, current);
+        private void DrawStraighLine(Point old, Point current) => DrowFigure(straightLine, old, current);
 
         void DrowFigure(Figure f, Point old, Point current, bool isMousDrow = false)
         {
@@ -250,5 +247,10 @@ namespace MyPaint
             drawDelig = DrawStraighLine;
         }
 
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            graphics = DrowPanel.CreateGraphics();
+            figure.Draw(graphics);
+        }
     }
 }

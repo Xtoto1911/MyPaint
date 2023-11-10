@@ -71,25 +71,27 @@
             // OpenFile
             // 
             OpenFile.Name = "OpenFile";
-            OpenFile.Size = new Size(180, 22);
+            OpenFile.Size = new Size(126, 22);
             OpenFile.Text = "Открыть";
             OpenFile.Click += OpenFile_Click;
             // 
             // CleanBnt
             // 
             CleanBnt.Name = "CleanBnt";
-            CleanBnt.Size = new Size(180, 22);
+            CleanBnt.Size = new Size(126, 22);
             CleanBnt.Text = "Очистить";
             CleanBnt.Click += CleanBnt_Click;
             // 
             // Exit
             // 
             Exit.Name = "Exit";
-            Exit.Size = new Size(180, 22);
+            Exit.Size = new Size(126, 22);
             Exit.Text = "Выход";
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = SystemColors.ControlDark;
+            tableLayoutPanel1.BackgroundImageLayout = ImageLayout.None;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
@@ -247,11 +249,12 @@
             // 
             // DrowPanel
             // 
+            DrowPanel.AutoSize = true;
             DrowPanel.BackColor = Color.White;
             DrowPanel.Dock = DockStyle.Fill;
             DrowPanel.Location = new Point(3, 53);
             DrowPanel.Name = "DrowPanel";
-            DrowPanel.Size = new Size(842, 442);
+            DrowPanel.Size = new Size(842, 412);
             DrowPanel.TabIndex = 1;
             DrowPanel.Paint += DrowPanel_Paint;
             DrowPanel.MouseDown += DrowPanel_MouseDown;
@@ -268,9 +271,11 @@
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Form1";
+            Resize += Form1_Resize;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
