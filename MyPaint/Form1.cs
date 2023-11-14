@@ -193,10 +193,7 @@ namespace MyPaint
                     firstPoint = e.Location;
                 }
                 else
-                {
                     drawDelig?.Invoke(firstPoint, e.Location);
-                }
-
             }
         }
 
@@ -218,10 +215,7 @@ namespace MyPaint
             Refresh();
         }
 
-        private void DrowPanel_Paint(object sender, PaintEventArgs e)
-        {
-            figure.Draw(graphics);
-        }
+        private void DrowPanel_Paint(object sender, PaintEventArgs e) => figure.Draw(graphics);
 
         private void RecBtn_Click(object sender, EventArgs e)
         {
@@ -251,6 +245,17 @@ namespace MyPaint
         {
             graphics = DrowPanel.CreateGraphics();
             figure.Draw(graphics);
+        }
+
+        private void ColorBtn_Click(object sender, EventArgs e)
+        {
+            var ColorDialog = new ColorDialog();
+
+            if (ColorDialog.ShowDialog() == DialogResult.OK)
+            {
+                pen.Color = ColorDialog.Color;
+                ColorBtn.BackColor = ColorDialog.Color;
+            }
         }
     }
 }

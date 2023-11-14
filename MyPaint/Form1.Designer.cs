@@ -223,6 +223,7 @@
             ColorBtn.Size = new Size(42, 38);
             ColorBtn.TabIndex = 7;
             ColorBtn.UseVisualStyleBackColor = false;
+            ColorBtn.Click += ColorBtn_Click;
             // 
             // trackBar1
             // 
