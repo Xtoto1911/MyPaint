@@ -19,7 +19,6 @@ namespace MyPaint
 
         private bool isDraw = false;
         private bool isSave = true;
-        private bool isLine = true;
 
         private delegate void DelegateCreate();
         private delegate void DelegateDrow(Point firstPoint, Point currPoint);
@@ -30,7 +29,6 @@ namespace MyPaint
         {
             InitializeComponent();
             InitSettings();
-
         }
 
         private void InitSettings()
@@ -50,6 +48,7 @@ namespace MyPaint
             pen.Width = (float)trackBar1.Value;
         }
 
+        #region Отрисовка
         private void DrawLine(Point firstPoint, Point currPoint)
         {
             line.points.Add(firstPoint);
@@ -65,105 +64,15 @@ namespace MyPaint
 
         private void DrawStraighLine(Point old, Point current) => DrowFigure(straightLine, old, current);
 
-        void DrowFigure(Figure f, Point old, Point current, bool isMousDrow = false)
+        void DrowFigure(Figure f, Point old, Point current, bool isPoint = false)
         {
             f.points.Add(old);
-            if (!isDraw || isMousDrow)
+            if (!isDraw || isPoint)
             {
                 f.points.Add(current);
                 f.Draw(graphics);
                 figure.figures.Add(f);
             }
-        }
-
-        private void CreateLine()
-        {
-            line = new(pen);
-            isLine = true;
-        }
-
-        public void CreateRectangle()
-        {
-            rectangle = new(pen);
-            isLine = false;
-        }
-
-        public void CreateEllipse()
-        {
-            ellipse = new(pen);
-            isLine = false;
-        }
-
-        public void CreateStraighLine()
-        {
-            straightLine = new(pen);
-            isLine = false;
-        }
-
-        private void SaveBtn_Click(object sender, EventArgs e)
-        {
-            using (SaveFileDialog dialog = new SaveFileDialog())
-            {
-                dialog.Filter = "MyPaint  (*png) | *.png";
-                dialog.RestoreDirectory = true;
-                dialog.DefaultExt = "png";
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    Stream stream = dialog.OpenFile();
-                    if (stream != null)
-                    {
-                        BinaryFormatter myBin = new BinaryFormatter();
-                        myBin.Serialize(stream, figure.figures);
-                        stream.Close();
-                    }
-                }
-            }
-            isSave = true;
-        }
-
-        private void OpenFile_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog openFile = new OpenFileDialog())
-            {
-                openFile.Filter = "Файлы MyPaint  (*png) | *.png";
-                openFile.RestoreDirectory = true;
-                if (openFile.ShowDialog() == DialogResult.OK)
-                {
-                    if (figure.figures.Count != 0)
-                        figure.figures.Clear();
-                    Refresh();
-                    Stream mystr = openFile.OpenFile();
-                    if (mystr != null)
-                    {
-                        try
-                        {
-                            BinaryFormatter myBin = new BinaryFormatter();
-                            figure.figures = (List<Figure>)myBin.Deserialize(mystr);
-                            mystr.Close();
-                            figure.Draw(graphics);
-                        }
-                        catch
-                        {
-                            MessageBox.Show("Ошибка при открытии файла");
-                        }
-                    }
-                }
-            }
-            drawDelig = null;
-            isSave = true;
-        }
-
-        private void CleanBnt_Click(object sender, EventArgs e)
-        {
-            figure.figures.Clear();
-            Refresh();
-            isSave = false;
-        }
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            LabelPx.Text = $"{trackBar1.Value} px";
-            pen.Width = (float)trackBar1.Value;
         }
 
         private void DrowPanel_MouseDown(object sender, MouseEventArgs e)
@@ -173,7 +82,7 @@ namespace MyPaint
                 isDraw = true;
                 createDelig?.Invoke();
                 firstPoint = e.Location;
-                if (isLine)
+                if (createDelig == CreateLine)
                 {
                     var local = new Point(firstPoint.X + (int)pen.Width / 2, firstPoint.Y + (int)pen.Width);
                     DrowFigure(new Ellipse(pen), e.Location, local, true);
@@ -203,6 +112,119 @@ namespace MyPaint
             drawDelig?.Invoke(firstPoint, e.Location);
         }
 
+
+        #endregion
+
+        #region Создание фигуры
+        private void CreateLine() => line = new(pen);
+
+        public void CreateRectangle() => rectangle = new(pen);
+
+        public void CreateEllipse() => ellipse = new(pen);
+
+        public void CreateStraighLine() => straightLine = new(pen);
+        #endregion
+
+        #region Кнопки
+        private void SaveBtn_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.InitialDirectory = "d:\\";
+                sfd.Filter = "MyPaint  (*png) | *.png";
+                sfd.RestoreDirectory = true;
+                sfd.DefaultExt = "png";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    using (Stream stream = sfd.OpenFile())
+                    {
+                        BinaryFormatter myBin = new BinaryFormatter();
+                        myBin.Serialize(stream, figure.figures);
+                    }
+                }
+            }
+            isSave = true;
+        }
+
+        private bool CreateMessegeBox(string text, string caption)
+        {
+            var messageBox = MessageBox.Show(text,
+                                             caption,
+                                             MessageBoxButtons.YesNoCancel,
+                                             MessageBoxIcon.Question);
+            if (messageBox == DialogResult.Yes)
+                SaveBtn_Click(new object(), new EventArgs());
+            else if (messageBox == DialogResult.Cancel)
+                return false;
+            return true;
+        }
+
+        private void OpenFile_Click(object sender, EventArgs e)
+        {
+            if (!isSave)
+            {
+                bool aswer = CreateMessegeBox("Сохранить сохранить текущий хост?",
+                                              "Открыть файл");
+                if (!aswer)
+                    return;
+            }
+            using (OpenFileDialog openFile = new OpenFileDialog())
+            {
+                openFile.Filter = "Файлы MyPaint  (*png) | *.png";
+                openFile.RestoreDirectory = true;
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    if (figure.figures.Count != 0)
+                        figure.figures.Clear();
+
+                    Refresh();
+
+                    using (Stream mystr = openFile.OpenFile())
+                    {
+                        try
+                        {
+                            BinaryFormatter myBin = new BinaryFormatter();
+                            figure.figures = (List<Figure>)myBin.Deserialize(mystr);
+                            figure.Draw(graphics);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Ошибка при открытии файла");
+                        }
+                    }
+                }
+            }
+            drawDelig = null;
+            isSave = true;
+        }
+
+        private void CleanBnt_Click(object sender, EventArgs e)
+        {
+            if (figure.figures.Count == 0)
+                return;
+            if (!isSave)
+            {
+                bool answer = CreateMessegeBox("Сохранить перед очисткой?",
+                                                "Очистка");
+                if (!answer)
+                    return;
+            }
+            figure.figures.Clear();
+            Refresh();
+        }
+
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            if(!isSave)
+            {
+                bool answer = CreateMessegeBox("Сохранить перед выходом?",
+                                                "Выход");
+                if (!answer)
+                    return;
+            }
+            Application.Exit();
+        }
+
         private void BackBtn_Click(object sender, EventArgs e)
         {
             if (figure.figures.Count != 0)
@@ -215,7 +237,16 @@ namespace MyPaint
             Refresh();
         }
 
-        private void DrowPanel_Paint(object sender, PaintEventArgs e) => figure.Draw(graphics);
+        private void ColorBtn_Click(object sender, EventArgs e)
+        {
+            var ColorDialog = new ColorDialog();
+
+            if (ColorDialog.ShowDialog() == DialogResult.OK)
+            {
+                pen.Color = ColorDialog.Color;
+                ColorBtn.BackColor = ColorDialog.Color;
+            }
+        }
 
         private void RecBtn_Click(object sender, EventArgs e)
         {
@@ -240,22 +271,17 @@ namespace MyPaint
             createDelig = CreateStraighLine;
             drawDelig = DrawStraighLine;
         }
+        #endregion
 
-        private void Form1_Resize(object sender, EventArgs e)
+        private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            graphics = DrowPanel.CreateGraphics();
-            figure.Draw(graphics);
+            LabelPx.Text = $"{trackBar1.Value} px";
+            pen.Width = (float)trackBar1.Value;
         }
 
-        private void ColorBtn_Click(object sender, EventArgs e)
-        {
-            var ColorDialog = new ColorDialog();
+        private void DrowPanel_Paint(object sender, PaintEventArgs e) => figure.Draw(graphics);
 
-            if (ColorDialog.ShowDialog() == DialogResult.OK)
-            {
-                pen.Color = ColorDialog.Color;
-                ColorBtn.BackColor = ColorDialog.Color;
-            }
-        }
+        private void Form1_Resize(object sender, EventArgs e) => graphics = DrowPanel.CreateGraphics();
+
     }
 }
