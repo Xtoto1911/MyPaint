@@ -41,6 +41,7 @@ namespace MyPaint.FiguresClasses
             return settings;
 
         }
+
         public virtual void Draw(Graphics gr)
         {
             foreach(var figure in figures)

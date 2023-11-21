@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyPaint.FiguresClasses
 {
+    [Serializable]
     public class StraightLine:Figure
     {
         public StraightLine(Pen pen): base(pen) { }
