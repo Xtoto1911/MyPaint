@@ -71,22 +71,23 @@
             // OpenFile
             // 
             OpenFile.Name = "OpenFile";
-            OpenFile.Size = new Size(126, 22);
+            OpenFile.Size = new Size(180, 22);
             OpenFile.Text = "Открыть";
             OpenFile.Click += OpenFile_Click;
             // 
             // CleanBnt
             // 
             CleanBnt.Name = "CleanBnt";
-            CleanBnt.Size = new Size(126, 22);
+            CleanBnt.Size = new Size(180, 22);
             CleanBnt.Text = "Очистить";
             CleanBnt.Click += CleanBnt_Click;
             // 
             // Exit
             // 
             Exit.Name = "Exit";
-            Exit.Size = new Size(126, 22);
+            Exit.Size = new Size(180, 22);
             Exit.Text = "Выход";
+            Exit.Click += Exit_Click;
             // 
             // tableLayoutPanel1
             // 

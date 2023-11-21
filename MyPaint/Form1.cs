@@ -146,8 +146,28 @@ namespace MyPaint
             isSave = true;
         }
 
-        private void OpenPng()
+        private bool CreateMessegeBox(string text, string caption)
         {
+            var messageBox = MessageBox.Show(text,
+                                             caption,
+                                             MessageBoxButtons.YesNoCancel,
+                                             MessageBoxIcon.Question);
+            if (messageBox == DialogResult.Yes)
+                SaveBtn_Click(new object(), new EventArgs());
+            else if (messageBox == DialogResult.Cancel)
+                return false;
+            return true;
+        }
+
+        private void OpenFile_Click(object sender, EventArgs e)
+        {
+            if (!isSave)
+            {
+                bool aswer = CreateMessegeBox("Сохранить сохранить текущий хост?",
+                                              "Открыть файл");
+                if (!aswer)
+                    return;
+            }
             using (OpenFileDialog openFile = new OpenFileDialog())
             {
                 openFile.Filter = "Файлы MyPaint  (*png) | *.png";
@@ -174,22 +194,6 @@ namespace MyPaint
                     }
                 }
             }
-        }
-
-        private void OpenFile_Click(object sender, EventArgs e)
-        {
-            if (!isSave)
-            {
-                var messageBox = MessageBox.Show("Есть не сохраненный холст.\nСохранить текущий холст?",
-                                                   "Открыть",
-                                                   MessageBoxButtons.YesNoCancel,
-                                                   MessageBoxIcon.Question);
-                if (messageBox == DialogResult.Yes)
-                    SaveBtn_Click(sender, e);
-                else if (messageBox == DialogResult.Cancel)
-                    return;
-            }
-            OpenPng();
             drawDelig = null;
             isSave = true;
         }
@@ -198,15 +202,27 @@ namespace MyPaint
         {
             if (figure.figures.Count == 0)
                 return;
-            var messageBox = MessageBox.Show("Очистить?\nВы не сохранили прошлый холст",
-                                              "Очистка",
-                                              MessageBoxButtons.YesNo,
-                                              MessageBoxIcon.Question);
-            if (messageBox != DialogResult.Yes)
-                return;
+            if (!isSave)
+            {
+                bool answer = CreateMessegeBox("Сохранить перед очисткой?",
+                                                "Очистка");
+                if (!answer)
+                    return;
+            }
             figure.figures.Clear();
             Refresh();
-            isSave = false;
+        }
+
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            if(!isSave)
+            {
+                bool answer = CreateMessegeBox("Сохранить перед выходом?",
+                                                "Выход");
+                if (!answer)
+                    return;
+            }
+            Application.Exit();
         }
 
         private void BackBtn_Click(object sender, EventArgs e)
@@ -266,5 +282,6 @@ namespace MyPaint
         private void DrowPanel_Paint(object sender, PaintEventArgs e) => figure.Draw(graphics);
 
         private void Form1_Resize(object sender, EventArgs e) => graphics = DrowPanel.CreateGraphics();
+
     }
 }

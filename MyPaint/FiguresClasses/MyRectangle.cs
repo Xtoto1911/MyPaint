@@ -9,7 +9,7 @@ namespace MyPaint.FiguresClasses
     [Serializable]
     public class MyRectangle:Figure
     {
-        public MyRectangle(Pen pen):base(pen) { }
+        public MyRectangle(Pen pen) : base(pen) { }
 
         public override void Draw(Graphics gr)
         {
