@@ -89,7 +89,6 @@ namespace MyPaint
                 }
                 isSave = drawDelig == null;
             }
-
         }
 
         private void DrowPanel_MouseMove(object sender, MouseEventArgs e)
@@ -170,7 +169,7 @@ namespace MyPaint
             }
             using (OpenFileDialog openFile = new OpenFileDialog())
             {
-                openFile.Filter = "װאיכû MyPaint  (*png) | *.png";
+                openFile.Filter = "(*png) | *.png";
                 openFile.RestoreDirectory = true;
                 if (openFile.ShowDialog() == DialogResult.OK)
                 {
