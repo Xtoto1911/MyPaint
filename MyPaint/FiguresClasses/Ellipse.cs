@@ -16,7 +16,7 @@ namespace MyPaint.FiguresClasses
         {
             int[] setting = GetSettings();//массив с найтроками(высотой, шириной и тд)
             System.Drawing.Rectangle r = new(setting[0], setting[1], setting[2], setting[3]);//создаем экземпляр класса прямоугольника
-            gr.DrawEllipse(new Pen(color, with), r);//на основе прямоугоника рисуем круг
+            gr.DrawEllipse(new Pen(color, with), r);//на основе прямоугоника рисуем круг 
         }
     }
 }
