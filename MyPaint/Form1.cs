@@ -204,7 +204,7 @@ namespace MyPaint
             }
             using (OpenFileDialog openFile = new OpenFileDialog())//вызываем диалоговое окно открытия файла
             {
-                openFile.Filter = "(*png) | *.png";//фильтр
+                openFile.Filter = "(*mypaint) | *mypaint";//фильтр
                 openFile.RestoreDirectory = true;
                 if (openFile.ShowDialog() == DialogResult.OK)//если мы нажали на ок
                 {
