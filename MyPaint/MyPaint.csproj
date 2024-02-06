@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>Resources\colors_design_swatch_selection_color_palette_icon_261261.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\255eec0f-ecea-477a-904b-afc1c0c06109.png" />
+    <None Remove="Resources\5700554.png" />
+    <None Remove="Resources\png-clipart-computer-icons-user-interface-button-save-button-rectangle-logo-thumbnail.png" />
+    <None Remove="Resources\png-transparent-black-rectangle-border-miscellaneous-angle-white-thumbnail.png" />
+    <None Remove="Resources\png-transparent-circle-scalable-graphics-circle-cdr-angle-white-thumbnail.png" />
+    <None Remove="Resources\png-transparent-line-rectangle-horizontal-line-angle-black-internet-thumbnail.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\colors_design_swatch_selection_color_palette_icon_261261.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\255eec0f-ecea-477a-904b-afc1c0c06109.png" />
+    <Resource Include="Resources\5700554.png" />
+    <Resource Include="Resources\png-clipart-computer-icons-user-interface-button-save-button-rectangle-logo-thumbnail.png" />
+    <Resource Include="Resources\png-transparent-black-rectangle-border-miscellaneous-angle-white-thumbnail.png" />
+    <Resource Include="Resources\png-transparent-circle-scalable-graphics-circle-cdr-angle-white-thumbnail.png" />
+    <Resource Include="Resources\png-transparent-line-rectangle-horizontal-line-angle-black-internet-thumbnail.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
